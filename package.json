@@ -1,7 +1,7 @@
 {
   "name": "webpack-node-modules-list",
   "version": "0.0.1",
-  "description": "Exports all used node modeules of a webpack bundle to a file.",
+  "description": "Exports meta data of all used node modules of a webpack bundle to a file.",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
