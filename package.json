@@ -1,0 +1,20 @@
+{
+  "name": "webpack-node-modules-list",
+  "version": "0.0.1",
+  "description": "Exports all used node modeules of a webpack bundle to a file.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "webpack",
+    "node",
+    "npm"
+  ],
+  "author": {
+    "email": "mecklenburg@ubilabs.net",
+    "name": "Frank Mecklenburg",
+    "url": "http://ubilabs.net"
+  },
+  "license": "MIT"
+}
