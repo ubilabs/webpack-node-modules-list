@@ -38,7 +38,7 @@ ExportNodeModules.prototype.apply = function(compiler) {
       .sort()
       .map(key => npmModules.get(key))
       .forEach(module => {
-        npmModulesList += `[${module.name}-${module.version}: ` +
+        npmModulesList += `[${module.name}@${module.version}: ` +
           `${module.license}](${module.homepage})\n`;
       });
 
