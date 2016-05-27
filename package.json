@@ -3,6 +3,13 @@
   "version": "0.1.1",
   "description": "Exports meta data of all used node modules of a webpack bundle to a file.",
   "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/ubilabs/webpack-node-modules-list/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:ubilabs/webpack-node-modules-list.git"
+  },
   "scripts": {
     "test": "npm test"
   },
