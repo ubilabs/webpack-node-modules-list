@@ -24,8 +24,17 @@ plugins: [
 ]}
 ```
 
-Alternatively, it is possible to pass a chunk name to the constructor.  
-This allows to filter the output so that it only includes chunks with a matching chunk name.
+### Options
+
+An options object may be passed to the constructor.  
+
+#### options.chunkName
+This option allows to filter the output so that it only includes chunks with a matching chunk name.
+
+#### options.outputFile
+This option allows to change the name of the output file. The file path is relative to the webpack output directory.
+
+#### Example
 
 ```
 const ExportNodeModules = require('webpack-node-modules-list'),
@@ -40,6 +49,6 @@ plugins: [
       path: path.join(__dirname, 'node_modules')
     }
   ]),
-  new ExportNodeModules({chunkName})
+  new ExportNodeModules({chunkName, outputFile: 'npm.md'})
 ]}
 ```

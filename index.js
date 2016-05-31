@@ -7,6 +7,7 @@ function ExportNodeModules(options) {
   options = options || {};
 
   this.chunkName = options.chunkName;
+  this.outputFile = options.outputFile || 'npm-modules.md';
 }
 
 ExportNodeModules.prototype.apply = function(compiler) {
@@ -51,7 +52,7 @@ ExportNodeModules.prototype.apply = function(compiler) {
       });
 
     // Insert this list into the Webpack build as a new file asset:
-    compilation.assets['npm-modules.md'] = {
+    compilation.assets[this.outputFile] = {
       source: function() {
         return npmModulesList;
       },
