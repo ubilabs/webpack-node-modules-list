@@ -3,15 +3,10 @@
 [![npm version](https://badge.fury.io/js/webpack-node-modules-list.svg)](https://badge.fury.io/js/webpack-node-modules-list)
 
 Exports metadata of all used node modules of a webpack bundle to a file.  
-This plugin works perfectly with the `SplitByPathPlugin` plugin.
-
-## About
-
-This plugin creates a list with the name, version, license, and link to the repo of each node module in the webpack bundle.  
 
 ## Usage
 
-Simply include this plugin in your webpack configuration file.  
+This plugin creates a list with the name, version, license, and link to the repo of each node module in the webpack bundle.  
 The output file name can be configured, and defaults to `npm-modules.md`
 
 ```
@@ -34,6 +29,9 @@ This option allows to filter the output so that it only includes chunks with a m
 This option allows to change the name of the output file. The file path is relative to the webpack output directory.
 
 #### Example
+
+This plugin works perfectly with the `SplitByPathPlugin` plugin.  
+The example below demonstrates all configurable features.
 
 ```
 const ExportNodeModules = require('webpack-node-modules-list'),
