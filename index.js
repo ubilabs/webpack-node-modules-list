@@ -21,26 +21,26 @@ ExportNodeModules.prototype.apply = function(compiler) {
       }
 
       // exclude anything that isn't a node module
-      let modules = chunk.modules.filter(module =>
-        module.context.indexOf('node_modules') !== -1);
+      chunk.modules
+        .filter(module =>
+          module.context.indexOf('node_modules') !== -1)
+        .forEach(function(module) {
+          const contextArray = module.context.split('/');
 
-      modules.forEach(function(module) {
-        const contextArray = module.context.split('/');
+          contextArray.splice(contextArray.indexOf('node_modules') + 2);
 
-        contextArray.splice(contextArray.indexOf('node_modules') + 2);
+          let context = contextArray.join('/'),
+            npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
+            packageJsonFile = path.join(context, 'package.json'),
+            packageJson = JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8'));
 
-        let context = contextArray.join('/'),
-          npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
-          packageJsonFile = path.join(context, 'package.json'),
-          packageJson = JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8'));
-
-        npmModules.set(packageJson.name, {
-          name: packageJson.name,
-          version: packageJson.version,
-          homepage: packageJson.homepage,
-          license: getLicenses(packageJson)
+          npmModules.set(packageJson.name, {
+            name: packageJson.name,
+            version: packageJson.version,
+            homepage: packageJson.homepage,
+            license: getLicenses(packageJson)
+          });
         });
-      });
     });
 
     Array.from(npmModules.keys())
