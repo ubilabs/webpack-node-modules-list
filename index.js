@@ -1,13 +1,13 @@
 'use strict';
 
 const path = require('path'),
-  fs = require('fs');
+  fs = require('fs'),
+  defaultOptions = {
+    outputFile: 'npm-modules.md'
+  };
 
 function ExportNodeModules(options) {
-  options = options || {};
-
-  this.chunkName = options.chunkName;
-  this.outputFile = options.outputFile || 'npm-modules.md';
+  this.options = Object.assign({}, defaultOptions, options);
 }
 
 ExportNodeModules.prototype.apply = function(compiler) {
@@ -16,7 +16,7 @@ ExportNodeModules.prototype.apply = function(compiler) {
       npmModules = new Map();
 
     compilation.chunks.forEach(chunk => {
-      if(this.chunkName && this.chunkName !== chunk.name) {
+      if(this.options.chunkName && this.options.chunkName !== chunk.name) {
         return;
       }
 
@@ -52,7 +52,7 @@ ExportNodeModules.prototype.apply = function(compiler) {
       });
 
     // Insert this list into the Webpack build as a new file asset:
-    compilation.assets[this.outputFile] = {
+    compilation.assets[this.options.outputFile] = {
       source: function() {
         return npmModulesList;
       },
