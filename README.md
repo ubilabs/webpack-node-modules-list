@@ -8,15 +8,14 @@ This plugin works perfectly with the `SplitByPathPlugin` plugin.
 ## About
 
 This plugin creates a list with the name, version, license, and link to the repo of each node module in the webpack bundle.  
-The output file is currently hardcoded and set to `npm-modules.md` in the webpack output directory.
 
 ## Usage
 
-Simply include this plugin in your webpack configuration file.
+Simply include this plugin in your webpack configuration file.  
+The output file name can be configured, and defaults to `npm-modules.md`
 
 ```
-const ExportNodeModules = require('webpack-node-modules-list'),
-  SplitByPathPlugin = require('webpack-split-by-path');
+const ExportNodeModules = require('webpack-node-modules-list');
 
 module.exports = {
 plugins: [
