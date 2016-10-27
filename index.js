@@ -23,7 +23,7 @@ ExportNodeModules.prototype.apply = function(compiler) {
       // exclude anything that isn't a node module
       chunk.modules
         .filter(module =>
-          module.context.indexOf('node_modules') !== -1)
+          module.context && module.context.indexOf('node_modules') !== -1)
         .forEach(function(module) {
           const contextArray = module.context.split('/');
 
