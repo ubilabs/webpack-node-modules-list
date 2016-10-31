@@ -74,10 +74,13 @@ module.exports = ExportNodeModules;
  * @return {String}
  */
 function getLicenses(packageJson) {
-  if (packageJson.licenses) {
+  if (packageJson.licenses && packageJson.licenses instanceof Array) {
     return packageJson.licenses
       .map(license => license.type)
       .join(', ');
+  } else if (packageJson.licenses) {
+    return (packageJson.licenses && packageJson.licenses.type) ||
+      packageJson.licenses;
   }
 
   return (packageJson.license && packageJson.license.type) ||
