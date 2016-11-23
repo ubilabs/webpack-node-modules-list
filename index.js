@@ -79,6 +79,7 @@ function getLicenses(packageJson) {
       .map(license => license.type)
       .join(', ');
   } else if (packageJson.licenses) {
+    // TODO: Refactor this to reduce duplicate code. Note "licenses" vs "license".
     return (packageJson.licenses && packageJson.licenses.type) ||
       packageJson.licenses;
   }
