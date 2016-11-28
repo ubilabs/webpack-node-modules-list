@@ -29,17 +29,24 @@ ExportNodeModules.prototype.apply = function(compiler) {
 
           contextArray.splice(contextArray.indexOf('node_modules') + 2);
 
-          let context = contextArray.join('/'),
-            npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
-            packageJsonFile = path.join(context, 'package.json'),
-            packageJson = JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8'));
+          try {
+            let context = contextArray.join('/'),
+              npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
+              packageJsonFile = path.join(context, 'package.json'),
+              packageJson = JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8'));
 
-          npmModules.set(packageJson.name, {
-            name: packageJson.name,
-            version: packageJson.version,
-            homepage: packageJson.homepage,
-            license: getLicenses(packageJson)
-          });
+            npmModules.set(packageJson.name, {
+              name: packageJson.name,
+              version: packageJson.version,
+              homepage: packageJson.homepage,
+              license: getLicenses(packageJson)
+            });
+          } catch (err) {
+            // ignore errors if package.json didn't exist for this module
+            if (err.code !== 'ENOENT') {
+              throw err;
+            }
+          }
         });
     });
 
