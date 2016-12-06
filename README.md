@@ -29,7 +29,7 @@ This option allows to filter the output so that it only includes chunks with a m
 This option allows to change the name of the output file. The file path is relative to the webpack output directory.
 
 #### options.format
-This option allows to change the output format. md (markdown) and json are supported.
+This option allows to change the output format. `markdown` and `json` are supported.
 
 #### Example
 
