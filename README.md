@@ -49,6 +49,6 @@ plugins: [
       path: path.join(__dirname, 'node_modules')
     }
   ]),
-  new ExportNodeModules({chunkName, outputFile: 'npm', format: 'md'})
+  new ExportNodeModules({chunkName, outputFile: 'npm', format: 'markdown'})
 ]}
 ```
