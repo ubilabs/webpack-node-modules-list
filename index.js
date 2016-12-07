@@ -3,7 +3,8 @@
 const path = require('path'),
   fs = require('fs'),
   defaultOptions = {
-    outputFile: 'npm-modules.md'
+    outputFile: 'npm-modules',
+    format: 'markdown'
   };
 
 function ExportNodeModules(options) {
@@ -13,7 +14,9 @@ function ExportNodeModules(options) {
 ExportNodeModules.prototype.apply = function(compiler) {
   compiler.plugin('emit', (compilation, callback) => {
     let npmModulesList = '',
-      npmModules = new Map();
+      npmModules = new Map(),
+      npmModulesJsonList = [],
+      extension;
 
     compilation.chunks.forEach(chunk => {
       if(this.options.chunkName && this.options.chunkName !== chunk.name) {
@@ -47,12 +50,26 @@ ExportNodeModules.prototype.apply = function(compiler) {
       .sort()
       .map(key => npmModules.get(key))
       .forEach(module => {
-        npmModulesList += `[${module.name}@${module.version}: ` +
-          `${module.license}](${module.homepage})  \n`;
+        if (this.options.format === 'markdown') {
+          npmModulesList += `[${module.name}@${module.version}: ` +
+            `${module.license}](${module.homepage})  \n`;
+          extension = 'md';
+        } else if (this.options.format === 'json') {
+          npmModulesJsonList.push({
+            name: module.name,
+            type: module.license,
+            version: module.version,
+            source: module.homepage
+          });
+          npmModulesList = JSON.stringify(npmModulesJsonList, null, 2);
+          extension = 'json';
+        } else {
+          throw new Error(`Format "${this.options.format}" is not supported by webpack-node-modules-list.`);
+        }
       });
 
     // Insert this list into the Webpack build as a new file asset:
-    compilation.assets[this.options.outputFile] = {
+    compilation.assets[`${this.options.outputFile}.${extension}`] = {
       source: function() {
         return npmModulesList;
       },
