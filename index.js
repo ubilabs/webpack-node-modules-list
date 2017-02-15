@@ -28,12 +28,21 @@ ExportNodeModules.prototype.apply = function(compiler) {
         .filter(module =>
           module.context && module.context.indexOf('node_modules') !== -1)
         .forEach(function(module) {
-          const contextArray = module.context.split(path.sep);
-
+          const contextArrayOriginal = module.context.split(path.sep);
+          let contextArray = contextArrayOriginal.slice();
+          
           contextArray.splice(contextArray.indexOf('node_modules') + 2);
 
-          let context = contextArray.join(path.sep),
-            npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
+          let contextOriginal = contextArrayOriginal.join(path.sep),
+            context = contextArray.join(path.sep)
+
+          if (!fs.existsSync(path.join(context, 'package.json')) 
+            && fs.existsSync(path.join(contextOriginal, 'package.json'))) {
+            context = contextOriginal;
+            contextArray = contextArrayOriginal;
+          }
+
+          let npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
             packageJsonFile = path.join(context, 'package.json'),
             packageJson = JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8'));
 
