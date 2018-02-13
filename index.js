@@ -23,8 +23,9 @@ ExportNodeModules.prototype.apply = function(compiler) {
         return;
       }
 
+      let chunkModules = chunk.getModules ? chunk.getModules() : chunk.modules;
       // exclude anything that isn't a node module
-      chunk.modules
+      chunkModules
         .filter(module =>
           module.context && module.context.indexOf('node_modules') !== -1)
         .forEach(function(module) {
