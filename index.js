@@ -11,6 +11,20 @@ function ExportNodeModules(options) {
   this.options = Object.assign({}, defaultOptions, options);
 }
 
+function getPackageJsonPath(contextArray) {
+  const nodeModulesIndex = contextArray.indexOf('node_modules');
+  const moduleRootFolder = contextArray[nodeModulesIndex + 1];
+  const offset = moduleRootFolder.match(/^@/) ?
+                 3 : // it is a scoped module
+                 2;  // it is a regular module
+  contextArray.splice(nodeModulesIndex + offset);
+
+  const context = contextArray.join(path.sep);
+  const packageJsonFile = path.join(context, 'package.json');
+
+  return packageJsonFile;
+}
+
 ExportNodeModules.prototype.apply = function(compiler) {
   compiler.plugin('emit', (compilation, callback) => {
     let npmModulesList = '',
@@ -31,11 +45,7 @@ ExportNodeModules.prototype.apply = function(compiler) {
         .forEach(function(module) {
           const contextArray = module.context.split(path.sep);
 
-          contextArray.splice(contextArray.indexOf('node_modules') + 2);
-
-          let context = contextArray.join(path.sep),
-            npmModule = contextArray[contextArray.indexOf('node_modules') + 1],
-            packageJsonFile = path.join(context, 'package.json'),
+          const packageJsonFile = getPackageJsonPath(contextArray), 
             packageJson = JSON.parse(fs.readFileSync(packageJsonFile, 'UTF-8'));
 
           npmModules.set(packageJson.name, {
