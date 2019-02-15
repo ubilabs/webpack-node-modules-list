@@ -47,6 +47,12 @@ ExportNodeModules.prototype.apply = function(compiler) {
         });
     });
 
+    // early out if no modules found
+    if (npmModules.size) {
+      callback();
+      return;
+    }
+
     Array.from(npmModules.keys())
       .sort()
       .map(key => npmModules.get(key))
